@@ -1,0 +1,80 @@
+.background-admin{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+}
+
+.sidebar{
+    height: 100vh;
+    position: fixed;
+    width: 70px;
+    background-color: #4dacff;
+    transition: width 0.2s;
+    overflow: hidden;
+    display: block;
+}
+
+.active{
+    width: 185px;
+}
+
+.sidebar-action-icon{
+    margin: 10px 10px 0 0;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.sidebar-module-structure{
+    display: flex;
+    margin-left: 15px;
+}
+
+.sidebar-module-icon{
+    font-size: 40px;
+}
+
+.sidebar-module-text{
+    margin: 0px 0 0 15px;
+    font-size: 25px;
+}
+
+.module-division{
+    background-color: black;
+    margin: 10px 5px 15px 5px;
+    height: 1px;
+    border: none;
+}
+
+.background-admin{
+    width: 100vw;
+    height: 100vh;
+}
+
+.button-tab-active{
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-size: 17px;
+    color: #1b2124;
+    margin: 0 30px 0 0px;
+    transition: none;
+    cursor: pointer;
+}
+
+.button-tab-inactive{
+    background-color: transparent;
+    border: none;
+    font-size: 17px;
+    color: #b7b7b7;
+    margin: 0 30px 0 0px;
+    transition: none;
+    cursor: pointer;
+}
+
+.tab-bar{
+    height: 1px;
+    border: none;
+    background-color: #b7b7b7;
+    margin-top: 0px;
+}

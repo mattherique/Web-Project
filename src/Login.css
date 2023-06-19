@@ -1,0 +1,145 @@
+:root {
+    --main-color: black
+}
+
+.background-image {
+    height: 100vh;
+    width: 100vw;
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+}
+
+.button-class {
+    border-radius: 30px;
+    font-size: 20px;
+    width: 50%;
+    height: 40px;
+    border: none;
+    background-color: #1b2124;
+    color: #fff;
+}
+
+.button-class:hover {
+    cursor: pointer;
+}
+
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 450px;
+    border-radius: 15px;
+    border: 1px solid;
+    /* border-color: #dbcece; */
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0 .5);
+    overflow:hidden ;
+    transition: transform .18s ease, height .18s ease;
+}
+
+.increase-box-size.increase-box-size{
+    height: 550px;
+}
+
+.initial-hide-login{
+    transform: translateY(0px);
+    transition: transform .18s ease;
+}
+
+.hide-login{
+    transform: translateY(-400px);
+    transition: transform .18s ease;
+}
+
+.login-text {
+    font-size: 40px;
+    color: var(--main-color);
+}
+
+.register-text {
+    cursor: pointer;
+}
+
+.register-text:hover {
+    text-decoration: underline;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.input-form {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 99%;
+    background-color: transparent;
+    border-bottom-color: var(--main-color);
+    outline: none;
+}
+
+.input-form:-webkit-autofill {
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.input-col {
+    position: relative;
+}
+
+.input-col:focus-within>p {
+    top: -40px;
+}
+
+.fixed-top {
+    top: -40px !important;
+    transition: .5s
+}
+
+.input-text {
+    position: absolute;
+    top: -20px;
+    transition: .3s
+}
+
+.input-space {
+    margin: 45px;
+}
+
+.raise:hover,
+.raise:focus {
+    box-shadow: 0 0.5em 0.5em -0.4em black;
+    transform: translateY(-0.25em);
+}
+
+button {
+    transition: 0.25s;
+}
+
+.login-redirect-text{
+    cursor: pointer;
+}
+
+.login-redirect-text:hover {
+    text-decoration: underline;
+}
+
+.login-link{
+
+}
+
+.register-link{
+    
+}
+
+.register-box-content{  
+    transform: translateY(100px);
+    transition: transform .18s ease;
+}
+
+.show-register{
+    transform: translateY(-360px);
+    transition: transform .18s ease;
+}
