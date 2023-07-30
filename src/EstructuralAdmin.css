@@ -1,41 +1,64 @@
-.background-admin{
-    height: 100vh;
-    width: 100vw;
-    position: fixed;
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root{
+    --main-font: 'Work Sans';
+    --main-font-spacing: -0.025em
+}
+
+main{
+    width:100%;
+    padding:20px
+}
+
+.container{
+    display:flex;
+    margin: 0px;
+    padding: 0px;
+    min-height: 100vh;
+}
+
+.icons-space{
+    height:150px;
+}
+
+.align-right{
+    text-align: right;
+}
+
+.title-style{
+    font-size:40px;
+    font-family: var(--main-font) !important;
+    letter-spacing: var(--main-font-spacing);
+    font-weight: 400;
 }
 
 .sidebar{
-    height: 100vh;
-    position: fixed;
-    width: 70px;
-    background-color: #4dacff;
+    background-color: #0d6efd;
     transition: width 0.2s;
     overflow: hidden;
     display: block;
-}
-
-.active{
-    width: 185px;
 }
 
 .sidebar-action-icon{
     margin: 10px 10px 0 0;
     font-size: 25px;
     cursor: pointer;
+    color: #dddee1
 }
 
 .sidebar-module-structure{
     display: flex;
-    margin-left: 15px;
 }
 
 .sidebar-module-icon{
     font-size: 40px;
+    color: #dddee1;
 }
 
 .sidebar-module-text{
     margin: 0px 0 0 15px;
     font-size: 25px;
+    color: #dddee1;
 }
 
 .module-division{
@@ -43,11 +66,6 @@
     margin: 10px 5px 15px 5px;
     height: 1px;
     border: none;
-}
-
-.background-admin{
-    width: 100vw;
-    height: 100vh;
 }
 
 .button-tab-active{
@@ -60,6 +78,8 @@
     margin: 0 30px 0 0px;
     transition: none;
     cursor: pointer;
+    font-family: var(--main-font) !important;
+    letter-spacing: var(--main-font-spacing);
 }
 
 .button-tab-inactive{
@@ -70,6 +90,8 @@
     margin: 0 30px 0 0px;
     transition: none;
     cursor: pointer;
+    font-family: var(--main-font) !important;
+    letter-spacing: var(--main-font-spacing);
 }
 
 .tab-bar{
@@ -77,4 +99,91 @@
     border: none;
     background-color: #b7b7b7;
     margin-top: 0px;
+}
+
+.register-input{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 99%;
+    background-color: transparent;
+    border-bottom-color: var(--main-color);
+    outline: none;
+}
+
+.register-input:-webkit-autofill {
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.register-input-col {
+    position: relative;
+}
+
+.register-address-col{
+    padding-left: 24px;
+    padding-right: 20px;
+    position: relative;
+}
+
+.register-address-col:focus-within>p {
+    top: -30px;
+}
+
+.register-input-col:focus-within>p {
+    top: -30px;
+}
+
+.fix-top {
+    top: -30px !important;
+    transition: .5s
+}
+
+.register-input-text {
+    position: absolute;
+    top: -5px;
+    transition: top .3s
+}
+
+.register-input-space {
+    margin: 45px 0 45px 0;
+}
+
+.register-box{
+    width: 50%;
+    min-width: 350px;
+}
+
+.text-strcture{
+    font-family: var(--main-font) !important;
+    letter-spacing: var(--main-font-spacing);
+    font-size: 25px;
+}
+
+.additional-options{
+    margin: 0px;
+    margin-top: 45px;
+}
+
+.radio-adjust{
+    margin-left: 15px;
+}
+
+.active-module{
+    border: solid 1px;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0px 5px 0 5px;
+    background-color: #2628608c;
+    border-color: transparent;
+    display: block;
+    width: 170px;
+    text-decoration: none;
+}
+
+.href-style{
+    cursor: pointer;
+    text-decoration: none;
+    padding: 5px;
+    margin: 0 5px 0 5px !important;
+    display: block;
 }

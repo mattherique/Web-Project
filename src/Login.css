@@ -93,7 +93,7 @@
     top: -40px;
 }
 
-.fixed-top {
+.fix-top {
     top: -40px !important;
     transition: .5s
 }

@@ -47,9 +47,9 @@ class LoginComponent extends Component {
         let tag = document.getElementById(event.target.id + "-text")
 
         if (event.target.value.length > 0) {
-            tag.classList.add("fixed-top")
+            tag.classList.add("fix-top")
         } else {
-            tag.classList.remove("fixed-top")
+            tag.classList.remove("fix-top")
         }
 
     }

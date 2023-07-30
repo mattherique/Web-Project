@@ -4,11 +4,11 @@ export const ADMIN_COLUMNS = [
     {
         name:"Usuários",
         icon: BsFillPersonFill,
-        path:"admin-user"
+        path:"/admin-user"
     },
     {
         name:"Estoque",
         icon: BsBoxSeam,
-        path:"dashboard-user"
+        path:"/admin-stock"
     }
 ]

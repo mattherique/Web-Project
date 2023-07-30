@@ -4,8 +4,9 @@ import './EstructuralAdmin.css';
 import LoginComponent from './LoginComponent'
 
 import { Route, Routes, BrowserRouter as Router} from "react-router-dom";
-import Admin from './Admin';
-import AdminUser from './AdmunUser';
+import AdminUser from './AdminUser';
+import AdminStock from './AdminStock';
+import AdminSidebar from './AdminSidebar';
 class WebRouter extends Component {
   constructor(props){
     super(props)
@@ -14,15 +15,13 @@ class WebRouter extends Component {
 
   render(){
     return (
-      <div>
-        <Router>
-            <Routes>
-                <Route exact path="/login" element={<LoginComponent />}/>
-                <Route exact path="/admin" element={<Admin />}/>
-                <Route exact path="/admin-user" element={<AdminUser />}/> 
-            </Routes>
-        </Router>
-      </div>
+      <Router>
+          <Routes>
+              <Route exact path="/login" element={<LoginComponent />}/>
+              <Route exact path="/admin-user" element={<AdminUser />}/>
+              <Route exact path="/admin-stock" element={<AdminStock />}/> 
+          </Routes>
+      </Router>
     );
   }
 }
