@@ -12,6 +12,7 @@ import InputMask from "react-input-mask";
 import AdminSidebar from "./AdminSidebar.jsx";
 import { detectFilled } from "./assistentFunction.js";
 import { defaultText } from "./events.js";
+import { newRequest } from "./request.js";
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -20,10 +21,16 @@ class AdminUser extends Component {
         super(props);
 
         this.state = {
-            userRegister:true
+            userRegister: false,
+            listUsers: true,
+            users: []
         }
 
         defaultText(this)
+    }
+
+    componentDidMount(){
+        this.getUsers()
     }
 
     changeTab(page){
@@ -52,6 +59,39 @@ class AdminUser extends Component {
             tag.classList.remove("fix-top")
         }
 
+    }
+
+    getUsers(){
+        let config = {
+            method:"GET",
+            url:"/admin/list-users"
+        }
+
+        newRequest(config, {}).then((r) => {
+            if(r.success){
+                this.setState({
+                    users: r.response.users
+                })
+            }
+        })
+    }
+
+    register(){
+        
+        let config = {
+            method:"POST",
+            url:"/admin/register-users"
+        }
+
+        let form = {
+            name: this.state.name,
+            email: this.state.email
+        }
+
+        newRequest(config, form).then((r) => {
+            console.log(r)
+            console.log('deu bia')
+        })
     }
 
     render() {
@@ -215,10 +255,31 @@ class AdminUser extends Component {
                                     />
                                 </Col>
                             </Row>
+                            <Row>
+                                <Col md={12}>
+                                    <Button onClick={() => this.register()}>Cadastrar usuário</Button>
+                                </Col>
+                            </Row>
                         </div>
                     </>
                     :
                     <>
+                        {
+                            this.state.users.map((value, index) => {
+                                return (
+                                    <>
+                                        <Row>
+                                            <Col md={6}>
+                                                <p>{value.nome}</p>
+                                            </Col>
+                                            <Col md={6}>
+                                                <p>{value.email}</p>
+                                            </Col>
+                                        </Row>
+                                    </>
+                                )
+                            })
+                        }
                     </>}
                 </main>
             </div>
