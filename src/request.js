@@ -84,7 +84,6 @@ export async function newRequest(config={}, content={}){
         
         /* Recebe a resposta */
         var response = await fetch(completeUrl, init);
-        console.log(response)
         
         let jsonText = await response.text();
 

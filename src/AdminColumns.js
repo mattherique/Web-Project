@@ -1,4 +1,4 @@
-import {BsFillPersonFill, BsBoxSeam} from "react-icons/bs"
+import { BsFillPersonFill, BsBoxSeamFill} from "react-icons/bs"
 
 export const ADMIN_COLUMNS = [
     {
@@ -8,7 +8,7 @@ export const ADMIN_COLUMNS = [
     },
     {
         name:"Estoque",
-        icon: BsBoxSeam,
+        icon: BsBoxSeamFill,
         path:"/admin-stock"
     }
 ]

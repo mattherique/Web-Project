@@ -2,11 +2,11 @@ import React, {Component} from "react"
 
 import {
     Row,
-    Col,
-    Button
+    Col
 } from "react-bootstrap"
 
 import { FaBars } from "react-icons/fa"
+import { BsFillArrowRightCircleFill } from "react-icons/bs"
 import { NavLink } from "react-router-dom";
 
 import { ADMIN_COLUMNS } from "./AdminColumns.js"
@@ -22,9 +22,6 @@ class AdminSidebar extends Component {
     }
 
     componentDidMount(){
-        console.log(this.state)
-        let url = window.location.href
-
     }
 
     sidebarAction() {
@@ -34,9 +31,10 @@ class AdminSidebar extends Component {
     }
 
     render(){
-        console.log(this.state)
         return (
-            <div id="sidebar" className="sidebar" style={this.state.sidebarState ? {width: "220px"} : {width: "70px"}}>
+            <>
+            <div id="sidebar" className="sidebar" style={document.body.clientWidth < 767 ? this.state.sidebarState ? {minWidth:"220px", width: "220px"} : {minWidth:"0px", width: "0px"} : this.state.sidebarState ? {width: "220px"} : {width: "70px"}}>
+                {document.body.clientWidth > 767 ? 
                 <Row>
                     <Col md={12} className="align-right">
                         <a onClick={() => this.sidebarAction()}>
@@ -44,12 +42,13 @@ class AdminSidebar extends Component {
                         </a>
                     </Col>
                 </Row>
+                : <></>}
                 <div className="icons-space"></div>
                 {this.state.adminColumns.map((value, index) => {
                     return (
                         <>
                             <NavLink
-                                className={this.props.pathTo == value.path ? "active-module" : "href-style"}
+                                className={this.props.pathTo === value.path ? "active-module" : "href-style"}
                                 key={index}
                                 to={value.path}
                             >
@@ -67,6 +66,19 @@ class AdminSidebar extends Component {
                     )
                 })}
             </div>
+            <main>
+                {document.body.clientWidth < 767 ? 
+                <Row>
+                    <Col md={12} className="side-cell-row">
+                        <a onClick={() => this.sidebarAction()}>
+                            <BsFillArrowRightCircleFill className="side-cell-icon" style={this.state.sidebarState ? {transform: "rotate(-0.5turn)"} : {transform: "rotate(0turn)"}}/>
+                        </a>
+                    </Col>
+                </Row> 
+                : <></>}
+                {this.props.children}
+            </main>
+            </>
         )
     }
 }

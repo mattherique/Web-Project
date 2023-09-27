@@ -16,11 +16,13 @@ class WebRouter extends Component {
   render(){
     return (
       <Router>
-          <Routes>
-              <Route exact path="/login" element={<LoginComponent />}/>
-              <Route exact path="/admin-user" element={<AdminUser />}/>
-              <Route exact path="/admin-stock" element={<AdminStock />}/> 
-          </Routes>
+          <AdminSidebar>
+            <Routes>
+                <Route exact path="/login" element={<LoginComponent/>}/>
+                <Route exact path="/admin-user" element={<AdminUser path={"/admin-user"}/>}/>
+                <Route exact path="/admin-stock" element={<AdminStock path={"/admin-stock"}/>}/> 
+            </Routes>
+          </AdminSidebar>
       </Router>
     );
   }

@@ -4,15 +4,15 @@ import {
     Row,
     Col,
     Button,
-    Container,
     Form
 } from "react-bootstrap"
 import InputMask from "react-input-mask";
 
-import AdminSidebar from "./AdminSidebar.jsx";
 import { detectFilled } from "./assistentFunction.js";
 import { defaultText } from "./events.js";
 import { newRequest } from "./request.js";
+import { CEPValidator } from "./structural.js";
+import { ToastContainer, toast } from 'react-toastify';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -35,9 +35,9 @@ class AdminUser extends Component {
 
     changeTab(page){
         this.setState({
-            userTab: page == "userTab",
-            userRegister: page == "registerUser",
-            country: "",
+            userTab: page === "userTab",
+            userRegister: page === "registerUser",
+            state: "",
             city: "",
             district: "",
             accomplish: "",
@@ -89,16 +89,55 @@ class AdminUser extends Component {
         }
 
         newRequest(config, form).then((r) => {
-            console.log(r)
-            console.log('deu bia')
+            if(r.success){
+                toast.success('Usuário registrado com sucesso', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                    theme: "light",
+                });
+            }
         })
+    }
+
+    changeCEP(event){
+        var cep = event.target.value.replace(/\D/g, '').length
+        
+        this.setState({
+            cep: event.target.value
+        }, () => {detectFilled(event)})
+        
+        if(cep === 8){
+            CEPValidator(event.target.value).then((response) => {
+
+                document.getElementById("address-text").classList.add("fix-top")
+                document.getElementById("district-text").classList.add("fix-top")
+                document.getElementById("city-text").classList.add("fix-top")
+                document.getElementById("state-text").classList.add("fix-top")
+
+                setInterval(() => this.setState({
+                    address: response["info"]["logradouro"],
+                    district: response["info"]["bairro"],
+                    city: response["info"]["localidade"],
+                    state: response["info"]["uf"]
+                }), 200
+                )
+            })
+        }
     }
 
     render() {
         return (
             <div className="container">
-                <AdminSidebar pathTo="/admin-user"/>
                 <main>
+                    <ToastContainer
+                        position="top-center"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        theme="light"
+                    />
                     <Row>
                         <Col md={12}>
                             <h2 className="title-style">Usuários</h2>
@@ -174,7 +213,7 @@ class AdminUser extends Component {
                                         id="cep"
                                         mask="99999-999"
                                         value={this.state.cep}
-                                        onChange={(e) => {this.changeText(e, "cep", detectFilled(e))}}
+                                        onChange={(e) => {this.changeCEP(e, "cep")}}
                                     />
                                 </Col>
                             </Row>
@@ -231,12 +270,12 @@ class AdminUser extends Component {
                                     />
                                 </Col>
                                 <Col className="register-address-col">
-                                    <p id="country-text" className="register-input-text">Estado</p>
+                                    <p id="state-text" className="register-input-text">Estado</p>
                                     <input
                                         className="register-input"
-                                        id="country"
-                                        value={this.state.country}
-                                        onChange={(e) => {this.changeText(e, "country", detectFilled(e))}}
+                                        id="state"
+                                        value={this.state.state}
+                                        onChange={(e) => {this.changeText(e, "state", detectFilled(e))}}
                                     />
                                 </Col>
                             </Row>
@@ -255,7 +294,7 @@ class AdminUser extends Component {
                                     />
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row className="button-position">
                                 <Col md={12}>
                                     <Button onClick={() => this.register()}>Cadastrar usuário</Button>
                                 </Col>

@@ -6,7 +6,6 @@ import {
     Button
 } from "react-bootstrap"
 
-import AdminSidebar from "./AdminSidebar.jsx";
 import { newRequest } from "./request.js";
 
 class AdminStock extends Component {
@@ -16,6 +15,9 @@ class AdminStock extends Component {
         this.state = {
         }
 
+    }
+
+    componentDidMount(){
     }
 
     testRequest(){
@@ -29,14 +31,13 @@ class AdminStock extends Component {
         }
 
         newRequest(config, form).then((r) => {
-            console.log(r)
+
         })
     }
 
     render() {
         return (
             <div className="container">
-                <AdminSidebar pathTo="/admin-stock"/>
                 <main>
                     <Row>
                         <Col md={12}>

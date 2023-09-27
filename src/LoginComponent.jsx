@@ -77,7 +77,6 @@ class LoginComponent extends Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <div className="background-image">
                 <ToastContainer
