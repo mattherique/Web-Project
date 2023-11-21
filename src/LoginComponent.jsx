@@ -25,6 +25,12 @@ class LoginComponent extends Component {
         // bindAllMethods(this)
     }
 
+    componentDidMount(){
+        let sidebar = document.getElementById("sidebar")
+        sidebar.classList.add("hide-sidebar")
+        console.log(sidebar)
+    }
+
     login() {
         if (!this.state.email || !this.state.password) {
             toast.error('Please, fill in all the fields', {
@@ -36,11 +42,10 @@ class LoginComponent extends Component {
                 theme: "dark",
             });
             return
+        }else{
+            window.location.href="/admin-user"
         }
-        window.location.href="/admin"
-        // else if(this.state.email || this.state.password){
-
-        // }
+        
     }
 
     detectFilled(event) {
@@ -86,7 +91,7 @@ class LoginComponent extends Component {
                     theme="black"
                 />
                 <div id="box" className="login-box">
-                    <div id="login-content" class="initial-hide-login">
+                    <div id="login-content" class="initial-hide-login top-adjust">
                         <Row>
                             <Col md={12}>
                                 <p className="text-center login-text">Login</p>
@@ -109,6 +114,7 @@ class LoginComponent extends Component {
                                 <input
                                     className="input-form"
                                     id="password"
+                                    type="password"
                                     value={this.state.password}
                                     onChange={(e) => {this.changeText(e, "password", this.detectFilled(e))}}
                                 />

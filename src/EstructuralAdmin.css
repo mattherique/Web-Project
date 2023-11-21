@@ -233,3 +233,6 @@ main{
     transition: transform 0.2s ease-out;
 }
 
+.info-icon-size{
+    font-size: 30px;
+}

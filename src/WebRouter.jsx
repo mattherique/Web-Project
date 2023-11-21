@@ -18,9 +18,9 @@ class WebRouter extends Component {
       <Router>
           <AdminSidebar>
             <Routes>
-                <Route exact path="/login" element={<LoginComponent/>}/>
-                <Route exact path="/admin-user" element={<AdminUser path={"/admin-user"}/>}/>
-                <Route exact path="/admin-stock" element={<AdminStock path={"/admin-stock"}/>}/> 
+              <Route exact path="/login" element={<LoginComponent/>}/>
+              <Route exact path="/admin-user" element={<AdminUser path={"/admin-user"}/>}/>
+              <Route exact path="/admin-stock" element={<AdminStock path={"/admin-stock"}/>}/> 
             </Routes>
           </AdminSidebar>
       </Router>

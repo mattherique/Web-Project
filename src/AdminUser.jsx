@@ -14,6 +14,8 @@ import { newRequest } from "./request.js";
 import { CEPValidator } from "./structural.js";
 import { ToastContainer, toast } from 'react-toastify';
 
+import { IoNewspaperSharp } from "react-icons/io5";
+
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 class AdminUser extends Component {
@@ -37,6 +39,7 @@ class AdminUser extends Component {
         this.setState({
             userTab: page === "userTab",
             userRegister: page === "registerUser",
+            infoUser: page === "infoUser",
             state: "",
             city: "",
             district: "",
@@ -50,21 +53,25 @@ class AdminUser extends Component {
         })
     }
 
-    detectFilled(event) {
-        let tag = document.getElementById(event.target.id + "-text")
-
-        if (event.target.value.length > 0) {
-            tag.classList.add("fix-top")
-        } else {
-            tag.classList.remove("fix-top")
-        }
-
-    }
-
     getUsers(){
         let config = {
             method:"GET",
             url:"/admin/list-users"
+        }
+
+        newRequest(config, {}).then((r) => {
+            if(r.success){
+                this.setState({
+                    users: r.response.users
+                })
+            }
+        })
+    }
+
+    getInfoUser(){
+        let config = {
+            method:"GET",
+            url:"/admin/info-itens-user"
         }
 
         newRequest(config, {}).then((r) => {
@@ -147,7 +154,7 @@ class AdminUser extends Component {
                         <Col md={12}>
                             <Button
                                 className={this.state.userTab ? "button-tab-active" : "button-tab-inactive"}
-                                onClick={() => this.changeTab("userTab")}
+                                onClick={() => {this.changeTab("userTab")}}
                             >Listagem
                             </Button>
                             <Button
@@ -155,6 +162,12 @@ class AdminUser extends Component {
                                 onClick={() => this.changeTab("registerUser")}
                             >Cadastro
                             </Button>
+                            {this.state.infoUser ? 
+                            <Button
+                                className={this.state.infoUser ? "button-tab-active" : "button-tab-inactive"}
+                                onClick={() => this.changeTab("infoUser")}
+                            >Cadastro
+                            </Button> : <></>}
                         </Col>
                     </Row>
                     <hr className="tab-bar"/>
@@ -308,11 +321,16 @@ class AdminUser extends Component {
                                 return (
                                     <>
                                         <Row>
-                                            <Col md={6}>
+                                            <Col md={2}>
                                                 <p>{value.nome}</p>
                                             </Col>
                                             <Col md={6}>
                                                 <p>{value.email}</p>
+                                            </Col>
+                                            <Col md={4}>
+                                                <a onClick={() => this.getInfoUser()}>
+                                                    <IoNewspaperSharp className="info-icon-size"/>
+                                                </a>
                                             </Col>
                                         </Row>
                                     </>

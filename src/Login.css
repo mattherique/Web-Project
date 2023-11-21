@@ -8,6 +8,7 @@
     background-size: cover;
     background-position: center;
     position: fixed;
+    background-color: #006bc7;
 }
 
 .button-class {
@@ -33,7 +34,7 @@
     height: 450px;
     border-radius: 15px;
     border: 1px solid;
-    /* border-color: #dbcece; */
+    background-color: #fff;
     backdrop-filter: blur(20px);
     box-shadow: 0 0 30px rgba(0, 0, 0 .5);
     overflow:hidden ;
@@ -90,7 +91,7 @@
 }
 
 .input-col:focus-within>p {
-    top: -40px;
+    top: -30px;
 }
 
 .fix-top {
@@ -100,7 +101,7 @@
 
 .input-text {
     position: absolute;
-    top: -20px;
+    top: 0px;
     transition: .3s
 }
 
@@ -142,4 +143,12 @@ button {
 .show-register{
     transform: translateY(-360px);
     transition: transform .18s ease;
+}
+
+.hide-sidebar{
+    display: none !important;
+} 
+
+.top-adjust{
+    margin-top: 30px;
 }
