@@ -235,4 +235,36 @@ main{
 
 .info-icon-size{
     font-size: 30px;
+    cursor: pointer;
+}
+
+.clickable-icon{
+    cursor: pointer;
+}
+
+.user-info-btn{
+    border-radius: 5px 5px 0px 0px;
+    border: solid 1px #c9c9c9;
+    border-bottom: none;
+}
+
+.user-info-box{
+    height: auto;
+    border-radius: 5px;
+    border: solid 1px #c9c9c9;
+}
+
+.user-info-btn-divider{
+    margin-left: 30px;
+}
+
+.user-info-btn-off{
+    background-color: #bbbbbb;
+    height: auto;
+    border-radius: 5px;
+    border: solid 1px #c9c9c9;
+}
+
+.bottom-gap{
+    margin-bottom: 30px;
 }

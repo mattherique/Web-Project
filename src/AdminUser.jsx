@@ -15,6 +15,7 @@ import { CEPValidator } from "./structural.js";
 import { ToastContainer, toast } from 'react-toastify';
 
 import { IoNewspaperSharp } from "react-icons/io5";
+import Select from "react-select";
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -71,14 +72,21 @@ class AdminUser extends Component {
     getInfoUser(){
         let config = {
             method:"GET",
-            url:"/admin/info-itens-user"
+            url:"/admin/list-itens"
         }
 
         newRequest(config, {}).then((r) => {
             if(r.success){
-                this.setState({
-                    users: r.response.users
+                let objStockItens = []
+                let stockItens = r.response.itens
+
+                stockItens.forEach((value, index) => {
+                    objStockItens.push({value:value.id, label:value.nome})
                 })
+
+                this.setState({
+                    stockItens: objStockItens
+                }, () => this.changeTab("infoUser"))
             }
         })
     }
@@ -135,6 +143,96 @@ class AdminUser extends Component {
         }
     }
 
+    changeUserInfoTab(page){
+        this.setState({
+            registerUserItem: page == "registerUserItem",
+            viewItens: page == "viewItens"
+        })
+    }
+
+    changeSelect(obj){
+        this.setState({
+            userItem: obj
+        })
+    }
+
+    registerNewItemUser(){
+        let config = {
+            method:"POST",
+            url:"/admin/register-user-item"
+        }
+
+        let form = {
+            itemId: this.state.userItem.value,
+            user: 1,
+            itemAmount: this.state.itemAmount
+        }
+
+        newRequest(config, form).then((r) => {
+            if(r.success){
+                toast.success('Item registrado ao usuário com sucesso', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                    theme: "light",
+                });
+                this.setState({
+                    userItem: {},
+                    itemAmount: ""
+                })
+            }else{
+                toast.error('Erro ao registrar item ao usuário', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                    theme: "light",
+                });
+            }
+        })
+    }
+
+    getItensUser(){
+        let config = {
+            method:"GET",
+            url:"/admin/list-user-itens"
+        }
+
+        let form = {
+            user: 1
+        }
+
+        newRequest(config, form).then((r) => {
+            if(r.success){
+                this.setState({
+                    userItens: r.response.itens
+                })
+                toast.success('Item do usuário listados com sucesso', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                    theme: "light",
+                });
+                this.changeUserInfoTab("viewItens")
+                
+            }else{
+                toast.error('Erro ao listar itens do usuário', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                    theme: "light",
+                });
+            }
+        })
+    }
+
     render() {
         return (
             <div className="container">
@@ -166,7 +264,7 @@ class AdminUser extends Component {
                             <Button
                                 className={this.state.infoUser ? "button-tab-active" : "button-tab-inactive"}
                                 onClick={() => this.changeTab("infoUser")}
-                            >Cadastro
+                            >Itens do usuário
                             </Button> : <></>}
                         </Col>
                     </Row>
@@ -314,7 +412,7 @@ class AdminUser extends Component {
                             </Row>
                         </div>
                     </>
-                    :
+                    : this.state.userTab ?
                     <>
                         {
                             this.state.users.map((value, index) => {
@@ -328,7 +426,7 @@ class AdminUser extends Component {
                                                 <p>{value.email}</p>
                                             </Col>
                                             <Col md={4}>
-                                                <a onClick={() => this.getInfoUser()}>
+                                                <a onClick={() => this.getInfoUser()} className="clickable-icon">
                                                     <IoNewspaperSharp className="info-icon-size"/>
                                                 </a>
                                             </Col>
@@ -337,7 +435,95 @@ class AdminUser extends Component {
                                 )
                             })
                         }
-                    </>}
+                    </>
+                    : this.state.infoUser ? 
+                    <>
+                        <Row>
+                            <Col className="input-col">
+                                <p class="text-strcture">Itens do usuário</p>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={12}>
+                                <Button
+                                    className={this.state.viewItens ? "user-info-btn" : "user-info-btn-off"}
+                                    onClick={() => {this.getItensUser()}}
+                                >Visualizar Itens
+                                </Button>
+                                <Button
+                                    className={this.state.registerUserItem ? "user-info-btn user-info-btn-divider" : "user-info-btn-off user-info-btn-divider"}
+                                    onClick={() => this.changeUserInfoTab("registerUserItem")}
+                                >Cadastrar novo Item
+                                </Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={12} className="user-info-box">
+                                {this.state.viewItens ? 
+                                <>
+                                    {this.state.userItens.map((value, index) => {
+                                        return (
+                                            <>
+                                                <Row>
+                                                    <Col md={2}>
+                                                        <p>Item</p>
+                                                    </Col>
+                                                    <Col md={6}>
+                                                        <p>Quantidade recebida</p>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col md={2}>
+                                                        <p>{value.item_estoque.nome}</p>
+                                                    </Col>
+                                                    <Col md={6}>
+                                                        <p>{value.quantidade}</p>
+                                                    </Col>
+                                                </Row>
+                                            </>
+                                        )
+                                    })}
+                                </>
+                                :
+                                <Row>
+                                    <Col md={12}>
+                                        <div className="register-box">
+                                            <Row className="register-input-space">
+                                                <Col className="register-input-col">
+                                                    <p>Pesquisar item no estoque</p>
+                                                    <Select
+                                                        value={this.state.userItem}
+                                                        placeholder="Pesquise Aqui!"
+                                                        onChange={(e) => {this.changeSelect(e)}}
+                                                        options={this.state.stockItens}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                            <Row className="register-input-space">
+                                                <Col className="register-input-col">
+                                                    <p id="item-amount-text" className="register-input-text">Quantidade recebida</p>
+                                                    <input
+                                                        className="register-input"
+                                                        id="item-amount"
+                                                        value={this.state.itemAmount}
+                                                        type="number"
+                                                        onChange={(e) => {this.changeText(e, "itemAmount", detectFilled(e))}}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                            <Row className="button-position bottom-gap">
+                                                <Col md={12}>
+                                                    <Button onClick={() => this.registerNewItemUser()}>Cadastrar Item ao usuário</Button>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                }
+                            </Col>
+                        </Row>
+                    </>
+                    : <></>}
                 </main>
             </div>
         )
