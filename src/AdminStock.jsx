@@ -68,7 +68,7 @@ class AdminStock extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={12}>
+                        <Col md={12} xs={12}>
                             <Button
                                 className={this.state.itensTab ? "button-tab-active" : "button-tab-inactive"}
                                 onClick={() => {this.listItens()}}

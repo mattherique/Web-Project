@@ -5,7 +5,7 @@
     --main-font-spacing: -0.025em
 }
 
-@media(max-width: 767){
+@media(max-width: 767px){
     .main-content{
         overflow: hidden;
         display: none;
@@ -116,6 +116,12 @@ main{
     letter-spacing: var(--main-font-spacing);
 }
 
+@media (max-width:992px){
+    .button-tab-active, .button-tab-inactive{
+        margin: 0 0 0 10px !important;
+    }
+}
+
 .tab-bar{
     height: 1px;
     border: none;
@@ -170,9 +176,15 @@ main{
     margin: 45px 0 45px 0;
 }
 
-.register-box{
-    width: 50%;
-    min-width: 350px;
+@media(min-width: 992px){
+    .register-box{
+        width: 50%;
+        min-width: 350px;
+    }
+
+    .user-info-btn-divider{
+        margin-left: 30px;
+    }
 }
 
 .text-strcture{
@@ -252,10 +264,6 @@ main{
     height: auto;
     border-radius: 5px;
     border: solid 1px #c9c9c9;
-}
-
-.user-info-btn-divider{
-    margin-left: 30px;
 }
 
 .user-info-btn-off{

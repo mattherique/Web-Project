@@ -33,10 +33,10 @@ class StockItens extends Component {
                     return(
                         <>
                             <Row>
-                                <Col md={6}>
+                                <Col md={6} xs={10}>
                                     <p>{value.nome}</p>
                                 </Col>
-                                <Col md={6}>
+                                <Col md={6} xs={2}>
                                     <p>{value.quantidade}</p>
                                 </Col>
                             </Row>

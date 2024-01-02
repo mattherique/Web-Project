@@ -17,16 +17,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import { IoNewspaperSharp } from "react-icons/io5";
 import Select from "react-select";
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
 class AdminUser extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             userRegister: false,
-            listUsers: true,
-            users: []
+            userTab: true,
+            users: [],
+            user: null
         }
 
         defaultText(this)
@@ -38,19 +37,19 @@ class AdminUser extends Component {
 
     changeTab(page){
         this.setState({
-            userTab: page === "userTab",
-            userRegister: page === "registerUser",
-            infoUser: page === "infoUser",
             state: "",
             city: "",
             district: "",
             accomplish: "",
-            numberaddress: "",
+            numberAddress: "",
             address: "",
             cep: "",
             phone: "",
             email: "",
-            name: ""
+            name: "",
+            userTab: page === "userTab",
+            userRegister: page === "registerUser",
+            infoUser: page === "infoUser"
         })
     }
 
@@ -69,24 +68,29 @@ class AdminUser extends Component {
         })
     }
 
-    getInfoUser(){
+    getInfoUser(userId){
+        this.setState({
+            userItens: [],
+            user: userId
+        })
+
         let config = {
             method:"GET",
-            url:"/admin/list-itens"
+            url:"/admin/list-user-itens"
         }
 
-        newRequest(config, {}).then((r) => {
+        let form = {
+            user: userId
+        }
+
+        newRequest(config, form).then((r) => {
             if(r.success){
-                let objStockItens = []
-                let stockItens = r.response.itens
-
-                stockItens.forEach((value, index) => {
-                    objStockItens.push({value:value.id, label:value.nome})
-                })
-
                 this.setState({
-                    stockItens: objStockItens
-                }, () => this.changeTab("infoUser"))
+                    userItens: r.response.itens,
+                    viewItens: true
+                }, () => { this.changeTab("infoUser")})
+            }else{
+
             }
         })
     }
@@ -118,6 +122,7 @@ class AdminUser extends Component {
     }
 
     changeCEP(event){
+        console.log(event)
         var cep = event.target.value.replace(/\D/g, '').length
         
         this.setState({
@@ -132,13 +137,12 @@ class AdminUser extends Component {
                 document.getElementById("city-text").classList.add("fix-top")
                 document.getElementById("state-text").classList.add("fix-top")
 
-                setInterval(() => this.setState({
+                this.setState({
                     address: response["info"]["logradouro"],
                     district: response["info"]["bairro"],
                     city: response["info"]["localidade"],
                     state: response["info"]["uf"]
-                }), 200
-                )
+                })
             })
         }
     }
@@ -164,7 +168,7 @@ class AdminUser extends Component {
 
         let form = {
             itemId: this.state.userItem.value,
-            user: 1,
+            user: this.state.user,
             itemAmount: this.state.itemAmount
         }
 
@@ -202,14 +206,15 @@ class AdminUser extends Component {
         }
 
         let form = {
-            user: 1
+            user: this.state.user
         }
 
         newRequest(config, form).then((r) => {
             if(r.success){
                 this.setState({
                     userItens: r.response.itens
-                })
+                }, () => this.changeUserInfoTab("viewItens"))
+
                 toast.success('Item do usuário listados com sucesso', {
                     position: "top-center",
                     autoClose: 5000,
@@ -218,8 +223,6 @@ class AdminUser extends Component {
                     draggable: true,
                     theme: "light",
                 });
-                this.changeUserInfoTab("viewItens")
-                
             }else{
                 toast.error('Erro ao listar itens do usuário', {
                     position: "top-center",
@@ -232,8 +235,42 @@ class AdminUser extends Component {
             }
         })
     }
+    
+    getStockItens(){
+        let config = {
+            method:"GET",
+            url:"/admin/list-itens"
+        }
+
+        newRequest(config, {}).then((r) => {
+            if(r.success){
+                let objStockItens = []
+                let stockItens = r.response.itens
+
+                stockItens.forEach((value, index) => {
+                    objStockItens.push({value:value.id, label:value.nome})
+                })
+
+                this.changeUserInfoTab("registerUserItem"); 
+
+                this.setState({
+                    stockItens: objStockItens
+                }, () => { this.changeTab("infoUser")})
+
+                toast.success('Estoque obtido com sucesso!', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                    theme: "light",
+                });
+            }
+        })
+}
 
     render() {
+        console.log(this.state)
         return (
             <div className="container">
                 <main>
@@ -341,12 +378,12 @@ class AdminUser extends Component {
                             </Row>
                             <Row>
                                 <Col className="register-address-col">
-                                    <p id="numberaddress-text" className="register-input-text">Número</p>
+                                    <p id="numberAddress-text" className="register-input-text">Número</p>
                                     <input
                                         className="register-input"
-                                        id="numberaddress"
-                                        value={this.state.numberaddress}
-                                        onChange={(e) => {this.changeText(e, "numberaddress", detectFilled(e))}}
+                                        id="numberAddress"
+                                        value={this.state.numberAddress}
+                                        onChange={(e) => {this.changeText(e, "numberAddress", detectFilled(e))}}
                                     />
                                 </Col>
                                 <Col className="register-address-col">
@@ -419,14 +456,14 @@ class AdminUser extends Component {
                                 return (
                                     <>
                                         <Row>
-                                            <Col md={2}>
+                                            <Col md={4} xs={4}>
                                                 <p>{value.nome}</p>
                                             </Col>
-                                            <Col md={6}>
+                                            <Col md={6} xs={6} style={{overflow:"hidden"}}>
                                                 <p>{value.email}</p>
                                             </Col>
-                                            <Col md={4}>
-                                                <a onClick={() => this.getInfoUser()} className="clickable-icon">
+                                            <Col md={2} xs={2}>
+                                                <a onClick={() => this.getInfoUser(value.id)} className="clickable-icon">
                                                     <IoNewspaperSharp className="info-icon-size"/>
                                                 </a>
                                             </Col>
@@ -444,7 +481,7 @@ class AdminUser extends Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col md={12}>
+                            <Col md={12} xs={12}>
                                 <Button
                                     className={this.state.viewItens ? "user-info-btn" : "user-info-btn-off"}
                                     onClick={() => {this.getItensUser()}}
@@ -452,7 +489,7 @@ class AdminUser extends Component {
                                 </Button>
                                 <Button
                                     className={this.state.registerUserItem ? "user-info-btn user-info-btn-divider" : "user-info-btn-off user-info-btn-divider"}
-                                    onClick={() => this.changeUserInfoTab("registerUserItem")}
+                                    onClick={() => {this.getStockItens()}}
                                 >Cadastrar novo Item
                                 </Button>
                             </Col>
@@ -465,18 +502,18 @@ class AdminUser extends Component {
                                         return (
                                             <>
                                                 <Row>
-                                                    <Col md={2}>
+                                                    <Col md={2} xs={6}>
                                                         <p>Item</p>
                                                     </Col>
-                                                    <Col md={6}>
+                                                    <Col md={6} xs={6}>
                                                         <p>Quantidade recebida</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
-                                                    <Col md={2}>
+                                                    <Col md={2} xs={9}>
                                                         <p>{value.item_estoque.nome}</p>
                                                     </Col>
-                                                    <Col md={6}>
+                                                    <Col md={6} xs={3}>
                                                         <p>{value.quantidade}</p>
                                                     </Col>
                                                 </Row>
