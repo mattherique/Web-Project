@@ -256,15 +256,6 @@ class AdminUser extends Component {
                 this.setState({
                     stockItens: objStockItens
                 }, () => { this.changeTab("infoUser")})
-
-                toast.success('Estoque obtido com sucesso!', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    draggable: true,
-                    theme: "light",
-                });
             }
         })
 }
