@@ -264,6 +264,8 @@ main{
     height: auto;
     border-radius: 5px;
     border: solid 1px #c9c9c9;
+    margin-top: -5px;
+    background-color: #fff;
 }
 
 .user-info-btn-off{
@@ -275,4 +277,13 @@ main{
 
 .bottom-gap{
     margin-bottom: 30px;
+}
+
+.datetime-input{
+    border-radius: 5px 5px 0px 0px;
+    border: solid 1px;
+    border-color: gray;
+    background-color: #e7e7e7;
+    height: 35px;
+    margin-left: 10px;
 }

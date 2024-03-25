@@ -11,7 +11,7 @@ import InputMask from "react-input-mask";
 import { detectFilled } from "./assistentFunction.js";
 import { defaultText } from "./events.js";
 import { newRequest } from "./request.js";
-import { CEPValidator } from "./structural.js";
+import { backToFrontDate, CEPValidator } from "./structural.js";
 import { ToastContainer, toast } from 'react-toastify';
 
 import { IoNewspaperSharp } from "react-icons/io5";
@@ -122,7 +122,6 @@ class AdminUser extends Component {
     }
 
     changeCEP(event){
-        console.log(event)
         var cep = event.target.value.replace(/\D/g, '').length
         
         this.setState({
@@ -209,6 +208,11 @@ class AdminUser extends Component {
             user: this.state.user
         }
 
+        if(this.state.firstDate && this.state.lastDate){
+            form.first_date = this.state.firstDate
+            form.last_date = this.state.lastDate
+        }
+
         newRequest(config, form).then((r) => {
             if(r.success){
                 this.setState({
@@ -258,8 +262,7 @@ class AdminUser extends Component {
                 }, () => { this.changeTab("infoUser")})
             }
         })
-}
-
+    }
     render() {
         console.log(this.state)
         return (
@@ -483,6 +486,24 @@ class AdminUser extends Component {
                                     onClick={() => {this.getStockItens()}}
                                 >Cadastrar novo Item
                                 </Button>
+                                {this.state.viewItens ? 
+                                    <>
+                                        <input
+                                            id="item-amount"
+                                            className="datetime-input"
+                                            value={this.state.firstDate}
+                                            type="date"
+                                            onChange={(e) => {this.changeText(e, "firstDate")}}
+                                        />
+                                        <input
+                                            id="item-amount"
+                                            className="datetime-input"
+                                            value={this.state.lastDate}
+                                            type="date"
+                                            onChange={(e) => {this.changeText(e, "lastDate", this.getItensUser)}}
+                                        />
+                                    </> 
+                                : <></>}
                             </Col>
                         </Row>
                         <Row>
@@ -493,19 +514,25 @@ class AdminUser extends Component {
                                         return (
                                             <>
                                                 <Row>
-                                                    <Col md={2} xs={6}>
+                                                    <Col md={3} xs={6}>
                                                         <p>Item</p>
                                                     </Col>
-                                                    <Col md={6} xs={6}>
+                                                    <Col md={3} xs={3}>
                                                         <p>Quantidade recebida</p>
+                                                    </Col>
+                                                    <Col md={6} xs={3}>
+                                                        <p>Data Entrega</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
-                                                    <Col md={2} xs={9}>
+                                                    <Col md={3} xs={6}>
                                                         <p>{value.item_estoque.nome}</p>
                                                     </Col>
-                                                    <Col md={6} xs={3}>
+                                                    <Col md={3} xs={3}>
                                                         <p>{value.quantidade}</p>
+                                                    </Col>
+                                                    <Col md={6} xs={3}>
+                                                        <p>{backToFrontDate(value.data_entrega, true, true)}</p>
                                                     </Col>
                                                 </Row>
                                             </>

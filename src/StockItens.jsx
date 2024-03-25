@@ -39,6 +39,9 @@ class StockItens extends Component {
                                 <Col md={6} xs={2}>
                                     <p>{value.quantidade}</p>
                                 </Col>
+                                <Col md={6} xs={10}>
+                                    <p>{value.data_entrega}</p>
+                                </Col>
                             </Row>
                         </>
                     )
